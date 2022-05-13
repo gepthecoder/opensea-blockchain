@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from "next/link";
 import React from "react";
 import openseaLogo from '../assets/opensea.png'
-
+import { AiOutlineSearch } from 'react-icons/ai'
 
 const style = {
     wrapper: `bg-[#04111d] w-screen px-[1.2rem] py-[0.8rem] flex `,
@@ -24,6 +24,13 @@ const Header = () => {
                 <div className={style.logoText}> Opensea </div>
             </div>
         </Link>
+        <div className={style.searchBar}>
+            <div className={style.searchIcon}>
+                <AiOutlineSearch />
+            </div>
+            <input className={style.searchInput}
+            placeholder='Search items, collections and accounts'/>
+        </div>
     </div>
 }
 
