@@ -28,6 +28,16 @@ const Hero = () => {
                     <div className={style.description}>
                             OpenSea is the world&apos;s first and largest NFT marketplace
                     </div>
+                    <div className={style.ctaContainer}>
+                        <button className={style.accentedButton}>Explore</button>
+                        <button className={style.button}>Create</button>
+                    </div>
+                </div>
+                <div className={style.cardContainer}>
+                    <img className="rounded-t-lg"
+                        src="https://lh3.googleusercontent.com/ujepnqpnL0nDQIHsWxlCXzyw4pf01yjz1Jmb4kAQHumJAPrSEj0-e3ABMZlZ1HEpJoqwOcY_kgnuJGzfXbd2Tijri66GXUtfN2MXQA=s550"
+                        alt=""
+                    />
                 </div>
             </div>
         </div>    
