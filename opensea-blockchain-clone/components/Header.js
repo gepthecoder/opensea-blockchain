@@ -34,7 +34,9 @@ const Header = () => {
             placeholder='Search items, collections and accounts'/>
         </div>
         <div className={style.headerItems}>
-            <div className={style.headerItem}> Collections </div>
+            <Link href='/collections/0xfBFb463C184b93C2d8659fe0311599001217FE68'>
+                <div className={style.headerItem}> Collections </div>
+            </Link>
             <div className={style.headerItem}> Stats </div>
             <div className={style.headerItem}> Resources </div>
             <div className={style.headerItem}> Create </div>
