@@ -1,19 +1,20 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-node_modules
+/opensea-blockchain-clone/node_modules
+/opensea-blockchain-clone/studio/node_modules
 /.pnp
 .pnp.js
 
 # testing
-/coverage
+/opensea-blockchain-clone/coverage
 
 # next.js
-/.next/
-/out/
+/opensea-blockchain-clone/.next/
+/opensea-blockchain-clone/out/
 
 # production
-/build
+/opensea-blockchain-clone/build
 
 # misc
 .DS_Store
