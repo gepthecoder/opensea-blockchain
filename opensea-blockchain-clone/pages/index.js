@@ -20,12 +20,18 @@ export default function Home(){
           <Hero />
         </>
       ) : (
-        <button
-          className={style.button}
-          onClick={() => connectWallet('injected')}
-        >
-          Connect Wallet
-        </button>
+        <div className={style.walletConnectWrapper}>
+          <button
+            className={style.button}
+            onClick={() => connectWallet('injected')}
+          >
+            Connect Wallet
+          </button>
+          <div className={style.details}>
+            You need Chrome to be
+            <br /> able to run this app.
+          </div>
+        </div>
       )}
     </div>
   
