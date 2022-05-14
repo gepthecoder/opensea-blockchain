@@ -13,10 +13,22 @@ const style = {
 export default function Home(){
   const { address, connectWallet } = useWeb3()
   return (
-    <>
-      <Header />
-      <Hero />
-    </>
+    <div className={style.wrapper}>
+      {address ? (
+        <>
+          <Header />
+          <Hero />
+        </>
+      ) : (
+        <button
+          className={style.button}
+          onClick={() => connectWallet('injected')}
+        >
+          Connect Wallet
+        </button>
+      )}
+    </div>
+  
   )
   
 }
