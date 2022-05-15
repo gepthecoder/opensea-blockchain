@@ -4,6 +4,7 @@ import { useWeb3 } from "@3rdweb/hooks";
 import { ThirdwebSDK } from '@3rdweb/sdk'
 import { useRouter } from "next/router";
 import NFTImage from '../../components/nft/NFTImage'
+import GeneralDetails from "../../components/nft/GeneralDetails";
 
 const style = {
     wrapper: `flex flex-col items-center container-lg text-[#e5e8eb]`,
@@ -15,8 +16,8 @@ const style = {
 
 const Nft = () => {
     const { provider } = useWeb3()
-    const { selectedNft, setSelectedNft} = useState()
-    const { listings, setListings} = useState([])
+    const [ selectedNft, setSelectedNft ]= useState()
+    const [ listings, setListings] = useState([])
     // router allows pulling the data from url params
     const router = useRouter()
 
@@ -39,9 +40,7 @@ const Nft = () => {
         ;(async () => {
             const nfts = await nftModule.getAll()
 
-            const selectedNftItem = nfts.find(
-                (nft) => nft.id === router.query.nftId
-            )
+            const selectedNftItem = nfts.find((nft) => nft.id === router.query.nftId)
 
             setSelectedNft(selectedNftItem)
         })()
@@ -73,9 +72,21 @@ const Nft = () => {
     return (
         <div>
             <Header />
-            <NFTImage selectedNft={selectedNft} />
+            <div className={style.wrapper}>
+                <div className={style.container}>
+                    <div className={style.topContent}>
+                        <div className={style.nftImgContainer}>
+                            <NFTImage selectedNft={selectedNft} />
+                        </div>
+                        <div className={style.detailsContainer}>
+                            <GeneralDetails selectedNft={selectedNft} />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
 
+// selectedNft={selectedNft}
 export default Nft
