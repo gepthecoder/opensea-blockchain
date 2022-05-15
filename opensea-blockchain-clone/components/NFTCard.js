@@ -24,15 +24,25 @@ const NFTCard = ({ nftItem, title, listings }) => {
     const [isListed, setIsListed] = useState(false)
     const [price, setPrice] = useState(0)
 
-    useEffect(() => {
-        for (const listing of listings) {
-            if(listing.asset.id == nftItem.id){
-                setIsListed(true)
-                setPrice(listing.buyoutCurrencyValuePerToken.displayValue)
-                break
-            }
-        }
+    //#region Oldway Snippet
+    // useEffect(() => {
+    //     for (const listing of listings) {
+    //         if(listing.asset.id == nftItem.id){
+    //             setIsListed(true)
+    //             setPrice(listing.buyoutCurrencyValuePerToken.displayValue)
+    //             break
+    //         }
+    //     }
 
+    // }, [listings, nftItem])
+    //#endregion
+    
+    useEffect(() => {
+       const listing = listings.find((listing) => listing.asset.id == nftItem.id)
+       if (Boolean(listing)) {
+            setIsListed(true)
+            setPrice(listing.buyoutCurrencyValuePerToken.displayValue)
+       }
     }, [listings, nftItem])
 
     return (
