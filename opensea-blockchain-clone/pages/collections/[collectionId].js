@@ -12,7 +12,7 @@ import NFTCard from "../../components/NFTCard";
 
 
 const style = {
-    bannerImageContainer: `h-[20vh] w-screen overflow-hidden flex justify-center items-center`,
+    bannerImageContainer: `h-[50vh] w-screen overflow-hidden flex justify-center items-center`,
     bannerImage: `w-full object-cover`,
     infoContainer: `w-screen px-4`,
     midRow: `w-full flex justify-center text-white`,
@@ -118,8 +118,18 @@ const Collection = () => {
     console.log(router.query.collectionId)
     return (
         <div className="overflow-hidden">
-            <Header /> 
-
+            <Header />
+            <div className={style.bannerImageContainer}>
+                <img 
+                    className={style.bannerImage}
+                    src={
+                        collection?.bannerImageUrl
+                        ? collection.bannerImageUrl
+                        : 'https://via.placeholder.com/200'
+                    }
+                    alt="banner"
+                />
+            </div>
         </div>
     )
 }
