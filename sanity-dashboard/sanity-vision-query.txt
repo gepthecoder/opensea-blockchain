@@ -1,0 +1,12 @@
+*[_type == "marketItems" && contractAddress == "0xfBFb463C184b93C2d8659fe0311599001217FE68"]{
+  address
+}
+
+*[_type == "marketItems" && contractAddress == "0xfBFb463C184b93C2d8659fe0311599001217FE68"]{
+  "imageUrl": profileImage.asset->url, 
+  "bannerImageUrl": bannerImage.asset->url, 
+  volumeTraded, createdBy, contractAddress,
+  "creator": createdBy->userName,
+  title, floorPrice, "allOwners": owners[]->, 
+  description
+}
