@@ -8,6 +8,7 @@ import Header from '../../components/Header'
 import { CgWebsite } from 'react-icons/cg'
 import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai'
 import { HiDotsVertical } from 'react-icons/hi'
+import NFTCard from "../../components/NFTCard";
 
 
 const style = {
@@ -116,7 +117,10 @@ const Collection = () => {
     console.log(router.query)
     console.log(router.query.collectionId)
     return (
-        <></>
+        <div className="overflow-hidden">
+            <Header /> 
+
+        </div>
     )
 }
 
