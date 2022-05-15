@@ -116,6 +116,7 @@ const Collection = () => {
 
     console.log(router.query)
     console.log(router.query.collectionId)
+
     return (
         <div className="overflow-hidden">
             <Header />
@@ -222,6 +223,19 @@ const Collection = () => {
 
             <div className={style.midRow}>
                 <div className={style.description}>{collection?.description}</div>
+            </div>
+
+            <div className="flex flex-wrap ">
+                {
+                    nfts.map((nftItem, id) => (
+                        <NFTCard
+                            key={id}
+                            nftItem={nftItem}
+                            title={collection?.title}
+                            listings={listings}
+                        />
+                    ))
+                }
             </div>
             
         </div>
