@@ -4,6 +4,10 @@ import Link from 'next/link';
 import { useWeb3 } from "@3rdweb/hooks";
 import { client } from '../../lib/sanityClient'
 import { ThirdwebSDK } from '@3rdweb/sdk'
+import Header from '../../components/Header'
+import { CgWebsite } from 'react-icons/cg'
+import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai'
+import { HiDotsVertical } from 'react-icons/hi'
 
 
 const style = {
@@ -112,9 +116,7 @@ const Collection = () => {
     console.log(router.query)
     console.log(router.query.collectionId)
     return (
-        <Link href="/">
-            <h2>{router.query.collectionId}</h2>
-        </Link>
+        <></>
     )
 }
 
