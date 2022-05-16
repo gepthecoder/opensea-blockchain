@@ -1,24 +1,19 @@
 import '../styles/globals.css'
-import {ThirdwebWeb3Provider} from '@3rdweb/hooks'
-
-
-// chain 4 represent Rinkeby test eth network
-// the injected connector is a web3 connection method used by Metamask
-const supportedChainIds = [4]
-const connectors = {
-  injected: {},
-}
-
+import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
 
 function MyApp({ Component, pageProps }) {
+  // const desiredChainId = 80001;
+  const desiredChainId = ChainId.Rinkeby;
+
+  /**
+   * Make sure that your app is wrapped with these contexts.
+   * If you're using React, you'll have to replace the Component setup with {children}
+   */
   return (
-    <ThirdwebWeb3Provider
-      supportedChainIds={supportedChainIds}
-      connectors={connectors}
-    >
+    <ThirdwebProvider desiredChainId={desiredChainId}>
       <Component {...pageProps} />
-    </ThirdwebWeb3Provider>
-  )
+    </ThirdwebProvider>
+  );
 }
 
 export default MyApp

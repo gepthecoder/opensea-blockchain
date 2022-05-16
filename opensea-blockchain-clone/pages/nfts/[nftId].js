@@ -1,12 +1,13 @@
 import Header from "../../components/Header"
 import { useState, useEffect, useMemo } from "react";
-import { useWeb3 } from "@3rdweb/hooks";
-import { ThirdwebSDK } from '@3rdweb/sdk'
 import { useRouter } from "next/router";
 import NFTImage from '../../components/nft/NFTImage'
 import GeneralDetails from "../../components/nft/GeneralDetails";
 import ItemActivity from '../../components/nft/ItemActivity'
 import Purchase from '../../components/nft/Purchase'
+
+import { useNFTCollection } from "@thirdweb-dev/react";
+import { useMarketplace } from '@thirdweb-dev/react'
 
 const style = {
     wrapper: `flex flex-col items-center container-lg text-[#e5e8eb]`,
@@ -17,55 +18,45 @@ const style = {
 }
 
 const Nft = () => {
-    const { provider } = useWeb3()
+
     const [ selectedNft, setSelectedNft ] = useState()
     const [ listings, setListings] = useState([])
+
     // router allows pulling the data from url params
     const router = useRouter()
 
-    const nftModule = useMemo(() => {
-        if(!provider) return
+    console.log("router : ", router)
 
-        const sdk = new ThirdwebSDK(
-            provider.getSigner(),
-            'https://rinkeby.infura.io/v3/dc57cdded7334a599cf26e3c2dda97a5'
-        )
-
-        return sdk.getNFTModule('0xfBFb463C184b93C2d8659fe0311599001217FE68')
-
-    }, [provider])
-
-    // get all NFTs in the collection
+    // get an instance of your own collection contract
+    const nftCollection = useNFTCollection("0xfBFb463C184b93C2d8659fe0311599001217FE68");
     useEffect(() => {
-        if(!nftModule) return
+        if (nftCollection) {
+            // call functions on your contract
+            nftCollection
+                .getAll()
+                .then((nfts) => {
+                    // Set selected nft
+                    const selectedNftItem = nfts.find((nft) => nft.metadata.id.toString() == router.query.nftId)
 
-        ;(async () => {
-            const nfts = await nftModule.getAll()
+                    setSelectedNft(selectedNftItem)
+                })
+                .catch((error) => {
+                    console.error("failed to fetch nfts", error);
+                });
+        }
+    }, [nftCollection]);
 
-            const selectedNftItem = nfts.find((nft) => nft.id === router.query.nftId)
+    // Initialize marketplace contract by passing in the contract address
+    const marketplaceAddress = "0x5DC7d152281e7F08585898CdB088E1144a938cA3";
+    const marketPlaceModule = useMarketplace(marketplaceAddress);
 
-            setSelectedNft(selectedNftItem)
-        })()
-
-    }, [nftModule])
-
-    const marketPlaceModule = useMemo(() => {
-        if(!provider) return
-
-        const sdk = new ThirdwebSDK(
-            provider.getSigner(),
-            'https://rinkeby.infura.io/v3/dc57cdded7334a599cf26e3c2dda97a5'
-        )
-
-        return sdk.getMarketplaceModule('0x5DC7d152281e7F08585898CdB088E1144a938cA3')
-
-    }, [provider])
-
+    // get all NFT listings in the collection
     useEffect(() => {
         if(!marketPlaceModule) return
 
         ;(async () => {
-            setListings(await marketPlaceModule.getAllListings())
+            const listings = await marketPlaceModule.getAll()
+            setListings(listings)
         })()
 
     }, [marketPlaceModule])
@@ -97,5 +88,5 @@ const Nft = () => {
     )
 }
 
-// selectedNft={selectedNft}
+
 export default Nft

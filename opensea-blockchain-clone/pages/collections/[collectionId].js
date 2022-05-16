@@ -1,14 +1,14 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
-import Link from 'next/link';
-import { useWeb3 } from "@3rdweb/hooks";
 import { client } from '../../lib/sanityClient'
-import { ThirdwebSDK } from '@3rdweb/sdk'
 import Header from '../../components/Header'
 import { CgWebsite } from 'react-icons/cg'
 import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai'
 import { HiDotsVertical } from 'react-icons/hi'
-import NFTCard from "../../components/NFTCard";
+import NFTCard from "../../components/NFTCard"
+
+import { useNFTCollection } from "@thirdweb-dev/react";
+import { useMarketplace } from '@thirdweb-dev/react'
 
 
 const style = {
@@ -34,62 +34,54 @@ const style = {
   }
 
 const Collection = () => {
+
+    // sdk v1
+    // const { provider } = useWeb3()
+    // sdk v2
+    // const rpcUrl = "https://rinkeby.infura.io/v3/dc57cdded7334a599cf26e3c2dda97a5";
+    // const sdk = new ThirdwebSDK(rpcUrl);
+    // const contract = sdk.getNFTCollection("0xfBFb463C184b93C2d8659fe0311599001217FE68");
+
     const router = useRouter()
-    const { provider } = useWeb3()
     const { collectionId } = router.query
 
     const [collection, setCollection] = useState({})
     const [nfts, setNfts] = useState([])
     const [listings, setListings] = useState([])
 
-    const nftModule = useMemo(() => {
-        if(!provider) return
+    // get an instance of your own collection contract
+    const nftCollection = useNFTCollection(collectionId);
 
-        const sdk = new ThirdwebSDK(
-            provider.getSigner(),
-            'https://rinkeby.infura.io/v3/dc57cdded7334a599cf26e3c2dda97a5'
-        )
-        return sdk.getNFTModule(collectionId)
-        
-    }, [provider])
-
-    // get all NFTs in the collection
     useEffect(() => {
-        if(!nftModule) return
+        if (nftCollection) {
+            // call functions on your contract
+            nftCollection
+                .getAll()
+                .then((nfts) => {
+                    setNfts(nfts);
+                    console.log("nfts: ", nfts)
+                })
+                .catch((error) => {
+                    console.error("failed to fetch nfts", error);
+                });
+        }
+    }, [nftCollection]);
 
-        ;(async () => {
-            const nfts = await nftModule.getAll()
-            setNfts(nfts)
-        })()
+    // Initialize marketplace contract by passing in the contract address
+    const marketplaceAddress = "0x5DC7d152281e7F08585898CdB088E1144a938cA3";
+    const marketPlaceModule = useMarketplace(marketplaceAddress);
 
-    }, [nftModule])
-
-    const marketPlaceModule = useMemo(() => {
-        if(!provider) return
-
-        const sdk = new ThirdwebSDK(
-            provider.getSigner(),
-            'https://rinkeby.infura.io/v3/dc57cdded7334a599cf26e3c2dda97a5'
-        )
-
-        return sdk.getMarketplaceModule(
-            '0x5DC7d152281e7F08585898CdB088E1144a938cA3'
-        )
-
-    }, [provider])
-
-    // get all listings in the collection
-    useEffect(() =>{
-        if(!marketPlaceModule) return
-        ;(async () => {
-            setListings(await marketPlaceModule.getAllListings())
-        })()
+    useEffect(() => {
+        if (!marketPlaceModule) return
+            ; (async () => {
+                const listings = await marketPlaceModule.getAll()
+                setListings(listings)
+            })()
     }, [marketPlaceModule])
-
 
     // fetch data from sanity
     const fetchCollectionData = async (
-        sanityClient = client, 
+        sanityClient = client
         ) => {
         const query = `*[_type == "marketItems" && contractAddress == "${collectionId}"]{
             "imageUrl": profileImage.asset->url, 
@@ -110,9 +102,7 @@ const Collection = () => {
 
     // whenever collection id gets updated -> when user routes to collection page
     useEffect(() => {
-        
         fetchCollectionData()
-
     }, [collectionId])    
 
     console.log(router.query)
