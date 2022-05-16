@@ -47,9 +47,10 @@ const Collection = () => {
 
         const sdk = new ThirdwebSDK(
             provider.getSigner(),
-            'https://eth-rinkeby.alchemyapi.io/v2/PZPQzb0quQ0Xvv0pu73fIESfS91OLoPr'
+            'https://rinkeby.infura.io/v3/dc57cdded7334a599cf26e3c2dda97a5'
         )
         return sdk.getNFTModule(collectionId)
+        
     }, [provider])
 
     // get all NFTs in the collection
@@ -68,7 +69,7 @@ const Collection = () => {
 
         const sdk = new ThirdwebSDK(
             provider.getSigner(),
-            'https://eth-rinkeby.alchemyapi.io/v2/PZPQzb0quQ0Xvv0pu73fIESfS91OLoPr'
+            'https://rinkeby.infura.io/v3/dc57cdded7334a599cf26e3c2dda97a5'
         )
 
         return sdk.getMarketplaceModule(
@@ -111,7 +112,7 @@ const Collection = () => {
     useEffect(() => {
         
         fetchCollectionData()
-        
+
     }, [collectionId])    
 
     console.log(router.query)
